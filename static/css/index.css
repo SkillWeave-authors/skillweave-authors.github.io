@@ -1,0 +1,245 @@
+/* SkillWeave project page — site-specific styles on top of Bulma.
+   Based on the Nerfies / Academic Project Page Template index.css. */
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+  background-color: #ffffff;
+}
+
+.link-block a {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+/* ------------------------------------------------------------ header */
+.publication-title,
+.publication-authors {
+  font-family: 'Google Sans', 'Noto Sans', sans-serif;
+}
+
+.publication-authors a {
+  color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-venue {
+  color: #555;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .publication-title {
+    font-size: 2.25rem !important;
+    line-height: 1.2 !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .publication-title {
+    font-size: 1.85rem !important;
+  }
+}
+
+/* ------------------------------------------------------------ teaser */
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', 'Noto Sans', sans-serif;
+}
+
+.teaser .subtitle {
+  margin-top: 1.25rem;
+}
+
+/* ------------------------------------------------------------ figures */
+.figure-caption,
+.table-note {
+  color: #555;
+  font-size: 0.95rem;
+  margin: 0.75rem auto 0;
+  max-width: 60rem;
+  text-align: left;
+}
+
+.table-note {
+  margin-bottom: 2.5rem;
+}
+
+figure.image img {
+  width: 100%;
+  height: auto;
+}
+
+.title.is-4 {
+  margin-top: 2.5rem;
+}
+
+.title.is-5 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.task-block {
+  margin-bottom: 1rem;
+}
+
+/* ------------------------------------------------------------ carousel */
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+.results-carousel .video-frame {
+  border: none;
+  border-radius: 0;
+}
+
+.results-carousel .video-caption {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem 0.75rem;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------ video slots
+   Each .video-slot names an mp4 in data-video. Until that file exists the
+   dashed .video-drop card stays visible over the poster frame; index.js
+   hides it as soon as the video loads. */
+.video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.video-frame.is-16by9 {
+  aspect-ratio: 16 / 9;
+}
+
+.video-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-frame:not(.has-video) video {
+  opacity: 0.35;
+}
+
+.video-drop {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1rem;
+  text-align: center;
+  color: #555;
+  border: 2px dashed #bbb;
+  border-radius: 10px;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.video-frame.has-video .video-drop {
+  display: none;
+}
+
+.video-drop .icon {
+  color: #888;
+}
+
+.video-drop-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.video-drop code {
+  font-size: 0.8rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  color: #363636;
+  word-break: break-all;
+}
+
+.video-caption {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.5rem;
+  line-height: 1.45;
+}
+
+.video-caption .tag {
+  margin-right: 0.35rem;
+  vertical-align: baseline;
+}
+
+/* ------------------------------------------------------------ tables */
+.table th {
+  white-space: nowrap;
+}
+
+.table th small {
+  display: block;
+  font-weight: normal;
+  color: #777;
+}
+
+.table tr.is-selected-row td {
+  background: #f5f5f5;
+}
+
+/* a rule between task groups, like the paper's table */
+.table tr.task-start td {
+  border-top: 2px solid #4a4a4a;
+}
+
+/* ------------------------------------------------------------ footer */
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid #eee;
+}
+
+.footer .content {
+  color: #555;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

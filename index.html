@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SkillWeave combines teleoperation and kinesthetic teaching to learn long-horizon dexterous manipulation skills, with mask-conditioned diffusion policies and successor-aware terminal steering.">
+  <meta name="keywords" content="SkillWeave, dexterous manipulation, kinesthetic teaching, teleoperation, diffusion policy, skill composition, LEAP Hand, xArm7">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="SkillWeave: Weaving Heterogeneous Demonstrations into Long-Horizon Manipulation Skills">
+  <meta property="og:description" content="Teleoperation for coarse reaching, kinesthetic teaching for contact-rich skills, and successor-aware terminal steering to compose them.">
+  <meta property="og:image" content="static/images/overview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>SkillWeave: Weaving Heterogeneous Demonstrations into Long-Horizon Manipulation Skills</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
+
+  <script src="static/js/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+<!-- ============================================================ Header -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">SkillWeave: Weaving Heterogeneous Demonstrations into Long-Horizon Manipulation Skills</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Anonymous</span>
+          </div>
+
+          <div class="is-size-6 publication-venue">Under review</div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="static/paper/skillweave.pdf" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <button class="button is-normal is-rounded is-dark" disabled title="Coming soon">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv (Coming Soon)</span>
+                </button>
+              </span>
+
+              <span class="link-block">
+                <button class="button is-normal is-rounded is-dark" disabled title="Coming soon">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code (Coming Soon)</span>
+                </button>
+              </span>
+
+              <span class="link-block">
+                <a href="#videos" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-play"></i></span>
+                  <span>Video</span>
+                </a>
+              </span>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ Teaser -->
+<section class="hero teaser" id="videos">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="video-slot" data-video="static/videos/teaser.mp4" data-controls>
+        <div class="video-frame is-16by9">
+          <video poster="static/images/poster-cube-rotate.jpg" preload="metadata" playsinline aria-label="SkillWeave overview video"></video>
+          <div class="video-drop">
+            <span class="icon is-large"><i class="fas fa-video fa-2x"></i></span>
+            <p class="video-drop-label">Overview video placeholder</p>
+            <code>static/videos/teaser.mp4</code>
+          </div>
+        </div>
+      </div>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">SkillWeave</span> uses teleoperation for long-horizon reaching and transport, kinesthetic teaching for precise contact-rich skills, and steers the handoff between the resulting policies.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ Rollout carousel -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <div class="video-slot" data-video="static/videos/task1-cube-full.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-cube-reach.jpg" preload="metadata" playsinline muted loop aria-label="Cube reorientation, full rollout"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task1-cube-full.mp4</code></div>
+            </div>
+            <p class="video-caption">Cube Reorientation &mdash; end-to-end rollout</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="video-slot" data-video="static/videos/task2-nut-full.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-nut-reach.jpg" preload="metadata" playsinline muted loop aria-label="Nut removal and storage, full rollout"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task2-nut-full.mp4</code></div>
+            </div>
+            <p class="video-caption">Nut Removal &amp; Storage &mdash; end-to-end rollout</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="video-slot" data-video="static/videos/task3-kettle-full.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-kettle-reach.jpg" preload="metadata" playsinline muted loop aria-label="Kettle preparation, full rollout"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task3-kettle-full.mp4</code></div>
+            </div>
+            <p class="video-caption">Kettle Preparation &mdash; end-to-end rollout</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="video-slot" data-video="static/videos/steering-with.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-cube-rotate.jpg" preload="metadata" playsinline muted loop aria-label="Handoff with terminal steering"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/steering-with.mp4</code></div>
+            </div>
+            <p class="video-caption">Handoff with successor-aware terminal steering</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="video-slot" data-video="static/videos/steering-without.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-cube-rotate.jpg" preload="metadata" playsinline muted loop aria-label="Handoff without terminal steering"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/steering-without.mp4</code></div>
+            </div>
+            <p class="video-caption">Handoff without terminal steering (ablation)</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="video-slot" data-video="static/videos/mask-conditioned-rollout.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-nut-unscrew.jpg" preload="metadata" playsinline muted loop aria-label="Mask-conditioned kinesthetic policy rollout"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/mask-conditioned-rollout.mp4</code></div>
+            </div>
+            <p class="video-caption">Mask-conditioned kinesthetic policy, autonomous</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Dexterous manipulation requires both large-scale task progression and precise contact-rich interaction, making it challenging to collect demonstrations that effectively support both regimes. We present SkillWeave, a heterogeneous demonstration framework for long-horizon dexterous manipulation that combines teleoperation for coarse reaching and transport with kinesthetic teaching for precise, contact-rich skills.
+          </p>
+          <p>
+            To address the visual mismatch introduced by the demonstrator's presence during kinesthetic data collection, we propose an object-mask-conditioned diffusion policy that uses offline object segmentation for training supervision and a lightweight learned mask predictor at deployment, avoiding online segmentation and image inpainting. To mitigate distribution shift between independently trained sub-task policies, we introduce successor-aware terminal steering, which selects among actions sampled from the predecessor policy to guide the system toward states supported by the successor's demonstrated initial-state distribution.
+          </p>
+          <p>
+            Across three real-world long-horizon tasks, SkillWeave achieves 27% average end-to-end success. Mask-conditioned kinesthetic policies improve dexterous sub-task success to an average of 65%, while successor-aware handoffs achieve an average composition efficiency of 87%. These results show that matching demonstration modality to interaction regime, explicitly addressing kinesthetic visual mismatch, and steering policy handoffs toward successor-supported states substantially improves long-horizon dexterous manipulation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ Overview -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Overview</h2>
+        <figure class="image">
+          <img src="static/images/overview.jpg" alt="Teleoperated reaching frames (blue), a policy-composition panel steering predecessor reachable states into successor start states, and kinesthetic teaching frames (red)." width="1760" height="557">
+        </figure>
+        <p class="figure-caption">
+          Teleoperation is used for long-horizon coverage and free-space reaching (blue), kinesthetic teaching for precise contact-rich interaction (red). Policy composition with inference-time steering combines policies trained on individual sub-tasks into long-horizon task success.
+        </p>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="content">
+          <h3 class="title is-4">Contributions</h3>
+          <ul>
+            <li><strong>Multi-modal demonstration framework.</strong> Teleoperation for long-horizon coverage and free-space reaching, kinesthetic teaching for precise contact-rich interaction. Collecting each sub-task separately also makes data cheaper to gather: a failed attempt costs one sub-task rather than the whole episode.</li>
+            <li><strong>Successor-aware terminal steering.</strong> Guides predecessor policies toward the successor's start-state distribution, reducing distribution shift at policy boundaries without additional transition demonstrations or a separately trained transition policy.</li>
+            <li><strong>Object-mask-conditioned diffusion policy.</strong> SAM 3 provides offline training masks while a learned predictor supplies masks at deployment, improving robustness across backgrounds and scenes with no online segmentation or inpainting in the control loop.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ Method -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Method</h2>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h3 class="title is-4">Mask-conditioned kinesthetic policies</h3>
+        <div class="content has-text-justified">
+          <p>
+            Each sub-task policy is a diffusion policy conditioned on an external RGB view, a wrist RGB view and proprioception (end-effector pose, arm joint angles, hand joint angles). Both views are encoded by a ResNet-18; the visual features are concatenated with proprioception to condition a 1-D conditional U-Net that denoises an action chunk.
+          </p>
+          <p>
+            Kinesthetic demonstrations put the demonstrator's hand and arm in frame during collection, but they are absent during autonomous execution. Rather than inpainting the demonstrator away, we keep the original RGB observations and condition visual feature aggregation on a mask of the manipulated object: features pooled inside the mask form a query, and cross-attention pools the spatial feature map against it. The attention distribution is additionally supervised by the normalized object mask. During training, masks come from SAM 3 offline; at deployment, a lightweight per-view U-Net predicts them directly from RGB, so neither SAM 3 nor inpainting runs online.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <figure class="image">
+          <img src="static/images/policy-architecture.png" alt="Mask-conditioned diffusion policy architecture." width="1008" height="372" loading="lazy">
+        </figure>
+        <p class="figure-caption">
+          Mask-conditioned diffusion policy. Object masks guide cross-attention pooling over the ResNet-18 feature maps; pooled features plus proprioception condition a 1-D U-Net that predicts action chunks.
+        </p>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="video-slot" data-video="static/videos/mask-conditioned-rollout.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-nut-unscrew.jpg" preload="metadata" playsinline muted loop aria-label="Autonomous mask-conditioned rollout"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/mask-conditioned-rollout.mp4</code></div>
+          </div>
+          <p class="video-caption">Autonomous rollout with no demonstrator in frame.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h3 class="title is-4">Successor-aware terminal steering</h3>
+        <div class="content has-text-justified">
+          <p>
+            Independently trained policies do not automatically compose: small prediction errors accumulate, so the predecessor's terminal state drifts away from the states the successor was trained to start from. We leave both policies unchanged and instead modify how the predecessor finishes.
+          </p>
+          <p>
+            For each successor policy, the first states of its training demonstrations form an empirical start-state set (wrist pose, arm joints, hand joints, each normalized). A state's compatibility is its mean distance to its <em>K</em> nearest neighbours in that set. Once the sub-task enters its terminal phase, the predecessor samples <em>L</em> candidate action chunks per replanning step, predicts each endpoint, and executes the candidate with the smallest distance, repeating until the score drops below a threshold or a maximum steering horizon is reached. Because every candidate is sampled from the predecessor itself, the system stays within behaviour the predecessor supports while moving toward states familiar to the successor.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <figure class="image">
+          <img src="static/images/terminal-steering.png" alt="Predecessor policy, successor-aware terminal steering (sample, score, select), and handoff inside the successor start-state set." width="1760" height="567" loading="lazy">
+        </figure>
+        <p class="figure-caption">
+          Policy composition and handoff. Candidate action chunks sampled from the predecessor are scored by proximity to the successor's demonstrated start states; the best candidate is executed, closed-loop, until handoff.
+        </p>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="video-slot" data-video="static/videos/steering-without.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-cube-rotate.jpg" preload="metadata" playsinline muted loop aria-label="Handoff without terminal steering"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/steering-without.mp4</code></div>
+          </div>
+          <p class="video-caption">Without steering: the predecessor ends far from the successor's start states.</p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="video-slot" data-video="static/videos/steering-with.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-cube-rotate.jpg" preload="metadata" playsinline muted loop aria-label="Handoff with terminal steering"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/steering-with.mp4</code></div>
+          </div>
+          <p class="video-caption">With steering: the handoff lands inside the successor's start-state region.</p>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <figure class="image">
+          <img src="static/images/steering-comparison.jpg" alt="Terminal hand pose without steering, an example successor start state, and the terminal hand pose with steering." width="1180" height="412" loading="lazy">
+        </figure>
+        <p class="figure-caption">
+          Without terminal steering (left) the predecessor ends at finger joint states far from the successor's start states (middle); with terminal steering (right) it ends much closer.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ Demonstration collection -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Demonstration Collection</h2>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            Demonstrations are collected on a 7-DoF xArm7 with a 16-DoF LEAP Hand, observed by a third-person RGB camera and a wrist-mounted RGB camera facing the palm. For each sub-task we collect 100 demonstrations with the modality that fits it. During teleoperation the operator drives the arm with a 6-DoF SpaceMouse while finger motion is captured by a camera, tracked with MediaPipe and retargeted to the robot hand by joint-angle mapping. During kinesthetic teaching the arm runs in drag/teach mode while the operator positions the fingers by hand under a compliant controller that yields to manual adjustment and holds the resulting pose. Synchronized RGB observations and proprioception (6D end-effector pose, 7D arm joints, 16D hand joints) are recorded at 30 Hz, with object positions randomized across episodes.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="video-slot" data-video="static/videos/data-teleoperation.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-teleop.jpg" preload="metadata" playsinline muted loop aria-label="Teleoperated demonstration collection"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/data-teleoperation.mp4</code></div>
+          </div>
+          <p class="video-caption">Teleoperation: SpaceMouse + MediaPipe hand retargeting.</p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="video-slot" data-video="static/videos/data-kinesthetic.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-kinesthetic.jpg" preload="metadata" playsinline muted loop aria-label="Kinesthetic demonstration collection"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/data-kinesthetic.mp4</code></div>
+          </div>
+          <p class="video-caption">Kinesthetic teaching: drag/teach arm, compliant finger posing.</p>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <figure class="image">
+          <img src="static/images/observations.jpg" alt="Example RGB observations: teleoperation, KineDex inpainting, kinesthetic teaching, and the wrist view during kinesthetic teaching." width="1180" height="375" loading="lazy">
+        </figure>
+        <p class="figure-caption">
+          Example RGB observations. Raw teleoperation and kinesthetic observations are fed directly to the policies; KineDex inpaints the image to match inference-time observations, but often blurs the robot hand and hallucinates content.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ Tasks -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Long-Horizon Tasks</h2>
+        <div class="content">
+          <p>
+            Each task is decomposed into sub-tasks, each demonstrated with the modality suited to its interaction regime:
+            <span class="tag is-info is-light">Teleoperation</span> for arm-level reaching and placement,
+            <span class="tag is-danger is-light">Kinesthetic</span> for finger-level, contact-rich skills.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 1 -->
+    <div class="task-block">
+      <h3 class="title is-4">Task 1: Cube Reorientation</h3>
+      <div class="columns is-multiline">
+        <div class="column is-one-third">
+          <div class="video-slot" data-video="static/videos/task1-cube-full.mp4" data-controls>
+            <div class="video-frame">
+              <video poster="static/images/poster-cube-reach.jpg" preload="metadata" playsinline aria-label="Cube reorientation, full rollout"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task1-cube-full.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-dark">Full rollout</span> End-to-end SkillWeave execution.</p>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="video-slot" data-video="static/videos/task1-sub1-reach-grasp-reorient.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-cube-reach.jpg" preload="metadata" playsinline muted loop aria-label="Reach, grasp and reorient cube"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task1-sub1-reach-grasp-reorient.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-info is-light">Teleoperation</span> Reach, grasp and reorient cube. Success: cube securely grasped without dropping.</p>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="video-slot" data-video="static/videos/task1-sub2-in-hand-rotation.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-cube-rotate.jpg" preload="metadata" playsinline muted loop aria-label="In-hand cube rotation"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task1-sub2-in-hand-rotation.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-danger is-light">Kinesthetic</span> Rotate cube in-hand. Success: cube rotated by at least 90&deg;.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2 -->
+    <div class="task-block">
+      <h3 class="title is-4">Task 2: Nut Removal and Storage</h3>
+      <div class="columns is-multiline">
+        <div class="column is-one-quarter">
+          <div class="video-slot" data-video="static/videos/task2-nut-full.mp4" data-controls>
+            <div class="video-frame">
+              <video poster="static/images/poster-nut-reach.jpg" preload="metadata" playsinline aria-label="Nut removal and storage, full rollout"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task2-nut-full.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-dark">Full rollout</span> End-to-end SkillWeave execution.</p>
+          </div>
+        </div>
+        <div class="column is-one-quarter">
+          <div class="video-slot" data-video="static/videos/task2-sub1-reach-nut.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-nut-reach.jpg" preload="metadata" playsinline muted loop aria-label="Reach for nut"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task2-sub1-reach-nut.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-info is-light">Teleoperation</span> Reach for nut. Success: hand positioned over the nut.</p>
+          </div>
+        </div>
+        <div class="column is-one-quarter">
+          <div class="video-slot" data-video="static/videos/task2-sub2-unscrew-nut.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-nut-unscrew.jpg" preload="metadata" playsinline muted loop aria-label="Unscrew nut"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task2-sub2-unscrew-nut.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-danger is-light">Kinesthetic</span> Unscrew nut. Success: nut fully detached from screw.</p>
+          </div>
+        </div>
+        <div class="column is-one-quarter">
+          <div class="video-slot" data-video="static/videos/task2-sub3-place-nut.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-nut-place.jpg" preload="metadata" playsinline muted loop aria-label="Place nut in container"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task2-sub3-place-nut.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-info is-light">Teleoperation</span> Place nut in container. Success: nut released inside the container.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3 -->
+    <div class="task-block">
+      <h3 class="title is-4">Task 3: Kettle Preparation</h3>
+      <div class="columns is-multiline">
+        <div class="column is-one-quarter">
+          <div class="video-slot" data-video="static/videos/task3-kettle-full.mp4" data-controls>
+            <div class="video-frame">
+              <video poster="static/images/poster-kettle-reach.jpg" preload="metadata" playsinline aria-label="Kettle preparation, full rollout"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task3-kettle-full.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-dark">Full rollout</span> End-to-end SkillWeave execution.</p>
+          </div>
+        </div>
+        <div class="column is-one-quarter">
+          <div class="video-slot" data-video="static/videos/task3-sub1-reach-grasp-position.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-kettle-reach.jpg" preload="metadata" playsinline muted loop aria-label="Reach, grasp and position kettle"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task3-sub1-reach-grasp-position.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-info is-light">Teleoperation</span> Reach, grasp and position kettle. Success: kettle grasped by the handle and positioned under the faucet.</p>
+          </div>
+        </div>
+        <div class="column is-one-quarter">
+          <div class="video-slot" data-video="static/videos/task3-sub2-open-lid.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-kettle-lid.jpg" preload="metadata" playsinline muted loop aria-label="Open lid using release button"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task3-sub2-open-lid.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-danger is-light">Kinesthetic</span> Open lid using release button. Success: button pressed and lid opened.</p>
+          </div>
+        </div>
+        <div class="column is-one-quarter">
+          <div class="video-slot" data-video="static/videos/task3-sub3-place-kettle.mp4" data-loop>
+            <div class="video-frame">
+              <video poster="static/images/poster-kettle-place.jpg" preload="metadata" playsinline muted loop aria-label="Place kettle down"></video>
+              <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/task3-sub3-place-kettle.mp4</code></div>
+            </div>
+            <p class="video-caption"><span class="tag is-info is-light">Teleoperation</span> Place kettle down. Success: kettle released and stable on the table.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <figure class="image">
+          <img src="static/images/rollouts.jpg" alt="Frame strips for the three long-horizon tasks; blue borders mark teleoperation-trained policies, red borders mark mask-conditioned kinesthetic policies." width="1760" height="843" loading="lazy">
+        </figure>
+        <p class="figure-caption">
+          Long-horizon rollouts. Top to bottom: Cube Reorientation, Nut Removal and Storage, Kettle Preparation. Blue frames are policies trained with teleoperation; red frames are mask-conditioned kinesthetic policies.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ Results -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Results</h2>
+        <div class="content">
+          <p>Every policy is evaluated over 20 rollouts with randomized object configurations, autonomously and with no demonstrator in frame.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 class="title is-4">Baseline comparison</h3>
+      </div>
+    </div>
+    <div class="columns is-multiline">
+      <div class="column is-one-quarter">
+        <div class="video-slot" data-video="static/videos/baseline-teleop-only.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-nut-unscrew.jpg" preload="metadata" playsinline muted loop aria-label="Teleoperation-only baseline"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/baseline-teleop-only.mp4</code></div>
+          </div>
+          <p class="video-caption"><strong>Teleoperation only</strong> &mdash; fails at the contact-rich stage.</p>
+        </div>
+      </div>
+      <div class="column is-one-quarter">
+        <div class="video-slot" data-video="static/videos/baseline-kinesthetic-only.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-kinesthetic.jpg" preload="metadata" playsinline muted loop aria-label="Kinesthetic-only baseline"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/baseline-kinesthetic-only.mp4</code></div>
+          </div>
+          <p class="video-caption"><strong>Kinesthetic only</strong> &mdash; visual shift breaks large-workspace motion.</p>
+        </div>
+      </div>
+      <div class="column is-one-quarter">
+        <div class="video-slot" data-video="static/videos/baseline-kinedex.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-nut-place.jpg" preload="metadata" playsinline muted loop aria-label="KineDex baseline"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/baseline-kinedex.mp4</code></div>
+          </div>
+          <p class="video-caption"><strong>KineDex</strong> &mdash; inpainting artifacts near contact regions.</p>
+        </div>
+      </div>
+      <div class="column is-one-quarter">
+        <div class="video-slot" data-video="static/videos/baseline-skillweave.mp4" data-loop>
+          <div class="video-frame">
+            <video poster="static/images/poster-cube-rotate.jpg" preload="metadata" playsinline muted loop aria-label="SkillWeave rollout"></video>
+            <div class="video-drop"><span class="icon is-large"><i class="fas fa-video fa-2x"></i></span><p class="video-drop-label">Video placeholder</p><code>static/videos/baseline-skillweave.mp4</code></div>
+          </div>
+          <p class="video-caption"><strong>SkillWeave</strong> &mdash; modality matched per sub-task, handoffs steered.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h3 class="title is-5">Sub-task success</h3>
+        <div class="table-container">
+          <table class="table is-fullwidth is-hoverable">
+            <thead>
+              <tr>
+                <th>Sub-task</th>
+                <th class="has-text-right">Teleop.</th>
+                <th class="has-text-right">Kin.</th>
+                <th class="has-text-right">KineDex</th>
+                <th class="has-text-right">Mask-Kin. (ours)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Reach, grasp &amp; reorient</td><td class="has-text-right"><strong>70%</strong></td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right has-text-grey">&mdash;</td></tr>
+              <tr><td>In-hand rotation</td><td class="has-text-right">10%</td><td class="has-text-right">30%</td><td class="has-text-right">0%</td><td class="has-text-right"><strong>70%</strong></td></tr>
+              <tr class="task-start"><td>Reach for nut</td><td class="has-text-right"><strong>85%</strong></td><td class="has-text-right">0%</td><td class="has-text-right">40%</td><td class="has-text-right has-text-grey">&mdash;</td></tr>
+              <tr><td>Unscrew nut</td><td class="has-text-right">5%</td><td class="has-text-right">0%</td><td class="has-text-right">60%</td><td class="has-text-right"><strong>75%</strong></td></tr>
+              <tr><td>Place nut in container</td><td class="has-text-right"><strong>30%</strong></td><td class="has-text-right">0%</td><td class="has-text-right">5%</td><td class="has-text-right has-text-grey">&mdash;</td></tr>
+              <tr class="task-start"><td>Reach, grasp &amp; position kettle</td><td class="has-text-right"><strong>80%</strong></td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right has-text-grey">&mdash;</td></tr>
+              <tr><td>Open lid with button</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right"><strong>50%</strong></td></tr>
+              <tr><td>Place kettle down</td><td class="has-text-right"><strong>55%</strong></td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right has-text-grey">&mdash;</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Individual sub-task policies across demonstration and visual-processing strategies; the rules separate the three tasks (top to bottom: Cube Reorientation, Nut Removal &amp; Storage, Kettle Preparation). Mask-conditioned policies were trained only for the dexterous sub-tasks.</p>
+
+        <h3 class="title is-5">End-to-end long-horizon success</h3>
+        <div class="table-container">
+          <table class="table is-fullwidth is-hoverable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th class="has-text-right">Teleop. only</th>
+                <th class="has-text-right">Kin. only</th>
+                <th class="has-text-right">KineDex</th>
+                <th class="has-text-right">SkillWeave w/o steering</th>
+                <th class="has-text-right">SkillWeave</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Cube Reorientation</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">10%</td><td class="has-text-right"><strong>45%</strong></td></tr>
+              <tr><td>Nut Removal &amp; Storage</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right"><strong>15%</strong></td></tr>
+              <tr><td>Kettle Preparation</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">5%</td><td class="has-text-right"><strong>20%</strong></td></tr>
+              <tr class="is-selected-row"><td><strong>Average</strong></td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">0%</td><td class="has-text-right">5%</td><td class="has-text-right"><strong>27%</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="title is-5">Composition efficiency</h3>
+        <div class="table-container">
+          <table class="table is-fullwidth is-hoverable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th class="has-text-right">Teleop. <small>S / S* / C</small></th>
+                <th class="has-text-right">KineDex <small>S / S* / C</small></th>
+                <th class="has-text-right">w/o steering <small>S / S* / C</small></th>
+                <th class="has-text-right">SkillWeave <small>S / S* / C</small></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Cube Reorientation</td><td class="has-text-right">0 / 7 / 0%</td><td class="has-text-right has-text-grey">0 / 0 / &ndash;</td><td class="has-text-right">10 / 49 / 20%</td><td class="has-text-right"><strong>45 / 49 / 92%</strong></td></tr>
+              <tr><td>Nut Removal &amp; Storage</td><td class="has-text-right">0 / 1 / 0%</td><td class="has-text-right">0 / 1 / 0%</td><td class="has-text-right">0 / 19 / 0%</td><td class="has-text-right"><strong>15 / 19 / 79%</strong></td></tr>
+              <tr><td>Kettle Preparation</td><td class="has-text-right has-text-grey">0 / 0 / &ndash;</td><td class="has-text-right has-text-grey">0 / 0 / &ndash;</td><td class="has-text-right">5 / 22 / 23%</td><td class="has-text-right"><strong>20 / 22 / 91%</strong></td></tr>
+              <tr class="is-selected-row"><td><strong>Average</strong></td><td class="has-text-right">0 / 3 / 0%</td><td class="has-text-right">0 / 1 / 0%</td><td class="has-text-right">5 / 30 / 14%</td><td class="has-text-right"><strong>27 / 30 / 87%</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">
+          S is end-to-end success, S* = &prod;<sub>j</sub> S<sup>(j)</sup> is the success expected from isolated sub-task performance, and C = S / S* is composition efficiency. Values near 1 mean policy handoffs add little degradation beyond the sub-tasks' own failure rates. Kinesthetic-only results are omitted because S* = 0 for all tasks.
+        </p>
+
+        <div class="content has-text-justified">
+          <ul>
+            <li>Teleoperation averages 64% on arm-level reaching, reorientation and placement sub-tasks but only 5% on the dexterous ones, where retargeting and indirect contact feedback break down.</li>
+            <li>On dexterous sub-tasks, raw kinesthetic observations reach 10% and KineDex's segment-and-inpaint reaches 20%, while mask conditioning reaches 65%: explicit object-centric conditioning beats reconstructing occluded pixels.</li>
+            <li>The same sub-task policies composed naively average 5% end-to-end; with successor-aware terminal steering they average 27%. Strong isolated sub-tasks do not imply reliable long-horizon execution.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>, adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page.
+            This website is licensed under a <a rel="license noopener" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
