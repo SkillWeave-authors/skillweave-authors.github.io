@@ -153,6 +153,12 @@ figure.image img {
   object-fit: cover;
 }
 
+/* zoom toward the right edge for clips framed with empty space on the left */
+.video-frame.focus-right video {
+  transform: scale(1.3);
+  transform-origin: right center;
+}
+
 .video-frame:not(.has-video) video {
   opacity: 0.35;
 }
