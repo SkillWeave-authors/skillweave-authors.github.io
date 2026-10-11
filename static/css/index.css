@@ -146,17 +146,15 @@ figure.image img {
   aspect-ratio: 16 / 9;
 }
 
+.video-frame.is-3by2 {
+  aspect-ratio: 3 / 2;
+}
+
 .video-frame video {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* zoom toward the right edge for clips framed with empty space on the left */
-.video-frame.focus-right video {
-  transform: scale(1.3);
-  transform-origin: right center;
 }
 
 .video-frame:not(.has-video) video {
